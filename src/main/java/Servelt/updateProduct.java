@@ -30,7 +30,6 @@ public class updateProduct extends HttpServlet {
             out.println("<label for=\"Oldname\">Old Name:</label>");
             out.println("<input type=\"text\" id=\"Oldname\" name=\"Oldname\" required>");
             out.println("<br><br>");
-
         out.println("<label for=\"Newname\">New Name:</label>");
         out.println("<input type=\"text\" id=\"Newname\" name=\"Newname\" required>");
         out.println("<br><br>");
@@ -49,7 +48,6 @@ public class updateProduct extends HttpServlet {
         String Oldname = request.getParameter("Oldname");
         String Newname = request.getParameter("Newname");
         String priceString = request.getParameter("price");
-
         try {
             double price = Double.parseDouble(priceString);
             productMannager.updateProduct(Oldname,Newname,price);

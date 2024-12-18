@@ -41,8 +41,8 @@ public class SearchProduct extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         String name = request.getParameter("name");
-        Product foundProduct = productMannager.getProductByName(name);
-        try (PrintWriter out = response.getWriter()) {
+        Product foundProduct = productMannager.searchProduct(name);
+        PrintWriter out = response.getWriter();
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -50,7 +50,6 @@ public class SearchProduct extends HttpServlet
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Product Search Result</h1>");
-
             if (foundProduct != null) {
                 out.println("<table border='1'>");
                 out.println("<tr><th>ID</th><th>Name</th><th>Price</th></tr>");
@@ -69,6 +68,6 @@ public class SearchProduct extends HttpServlet
             out.println("<br><a href=\"search\">Search Again</a>");
             out.println("</body>");
             out.println("</html>");
-        }
+
     }
 }

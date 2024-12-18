@@ -3,6 +3,7 @@ package Servelt;
 import Mannager.productMannager;
 import ProductModel.Product;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,15 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
 @WebServlet("/addProduct")
 public class addProduct extends HttpServlet {
     private productMannager productMannager = new productMannager();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -39,22 +39,32 @@ public class addProduct extends HttpServlet {
             out.println("<br><br>");
             out.println("</body>");
             out.println("</html>");
-        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String priceString = request.getParameter("price");
+        int price = Integer.parseInt(priceString);
+        PrintWriter out = response.getWriter();
+        Product product= productMannager.searchProduct(name);
 
+        if(product==null){
         try {
-            int price = Integer.parseInt(priceString);
-            productMannager.addProduct(new Product(name, price, productMannager.getAllProducts().size() + 1));
+            Product NewProduct=new Product();
+            NewProduct.setName(name);
+            NewProduct.setPrice(price);
+            NewProduct.setId(productMannager.getAllProducts().size()+1);
+            productMannager.addProduct(NewProduct);
             response.sendRedirect("getAllProduct");
-
         } catch (RuntimeException e) {
             response.sendRedirect("error?message=" + e.getMessage());
-//            response.getWriter().println("<a href=\"addProduct\">Go back and try again</a>");
         }
+        }
+        else  {
+            out.println("<p style='color:red;'>Product is already found: " + name + "</p>");
+        }
+
     }
 }

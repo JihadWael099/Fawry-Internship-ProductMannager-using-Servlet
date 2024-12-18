@@ -5,18 +5,13 @@ public class Product {
     private String name;
     private double price;
     private int id;
-
-    public Product(String name, int price, int id){
-        this.name=name;
-        this.price=price;
-        this.id=id;
-    }
-
     public String getName() {
+        if(name==null)throw new RuntimeException("null name");
         return name;
     }
 
     public void setName(String name) {
+        if(name.length()>=100)throw new RuntimeException("Product name too long");
         this.name = name;
     }
 
@@ -25,13 +20,15 @@ public class Product {
     }
 
     public void setId(int id) {
+
         this.id = id;
     }
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
+        if(price<0)throw new RuntimeException("Price not allowed");
         this.price = price;
     }
 }

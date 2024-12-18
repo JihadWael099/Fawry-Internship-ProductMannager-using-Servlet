@@ -44,7 +44,7 @@ public class removeProduct extends HttpServlet {
      try{
          String name=request.getParameter("name");
          productMannager.DeleteProduct(name);
-         response.sendRedirect("/getAllProduct");
+         response.sendRedirect("getAllProduct");
      }
      catch (Exception e)
      {

@@ -9,52 +9,38 @@ public class productMannager
     private static  List<Product> productList = new ArrayList<>();
 
     public void addProduct(Product product){
-        if(!productList.contains(product)){
-            if(product.getName().length()>=100)throw new RuntimeException("Product name too long");
-            if(product.getPrice()<0)throw new RuntimeException("negative price not allowed");
-            productList.add(product);
-        }
-        else throw new RuntimeException("product already exists");
+        if(productList.contains(product.getName()))throw new RuntimeException("Product already exists");
+        productList.add(product);
     }
+
+
     public void DeleteProduct(String name){
-      for(Product product : productList){
-          if(!product.getName().equals(name))throw new RuntimeException("Product not found to delete");
-          productList.remove(product);
-      }
+        boolean isRemoved = productList.removeIf(product -> product.getName().equals(name));
+        if (!isRemoved) {
+            throw new RuntimeException("Product not found to delete");
+        }
+
     }
     public void updateProduct(String oldname,String newname,double newprice) {
-        for(Product product : productList){
+        productList.forEach(product -> {
             if(product.getName().equals(oldname)){
-                if(newname.length()>=100)throw new RuntimeException("Product name too long");
-                if(product.getPrice()<0)throw new RuntimeException("negative price not allowed");
-                product.setName(newname);
-                product.setPrice((int) newprice);
-            }
-        }
+            product.setName(newname);
+            product.setPrice( newprice);
+        }});
+        System.out.println("productUpdated");
     }
     public Product searchProduct(String name) {
-        for (Product product : productList) {
-            if (product.getName().equals(name)) {
-                return product;
-            }
-        }
-        return null;
+        Product product = productList.stream()
+                .filter(productEle -> productEle.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+        //System.out.println(product.getName());
+        return product;
     }
     public List<Product> getAllProducts() {
         return productList;
     }
-    public Product getProductByName(String name){
 
-        Product product=null;
-        for(Product p:productList){
-            if(p.getName().equals(name)){
-                product=p;
-                break;
-            }
-        }
-        return product;
-
-    }
 
 
 }
